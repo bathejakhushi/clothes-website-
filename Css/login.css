@@ -1,0 +1,366 @@
+/* ============================
+   GLOBAL STYLING
+============================ */
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: #f8f8f8;
+    color: #222;
+}
+
+/* ============================
+   NAVBAR
+============================ */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 70px;
+    background-color: #111;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    padding: 0 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    transition: 0.3s ease;
+}
+
+nav a:hover {
+    color: #f84258;
+}
+
+nav .logo h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    align-items: center;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.nav-links li a.active {
+    color: #f84258;
+    font-weight: 700;
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: #f84258;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Responsive Navbar */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        right: 0;
+        height: 100vh;
+        top: 70px;
+        background-color: #111;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in;
+    }
+
+    .nav-links li {
+        margin: 20px 0;
+    }
+
+    .nav-active {
+        transform: translateX(0%);
+    }
+
+    .burger {
+        display: block;
+    }
+}
+
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px,6px);
+}
+.toggle .line2 {
+    opacity: 0;
+}
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px,-6px);
+}
+
+/* ============================
+   HERO BANNER
+============================ */
+.hero-banner {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+}
+
+.hero-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+}
+
+.hero-text h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+}
+
+.hero-text p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+/* ============================
+   SECTION TITLES
+============================ */
+.section-title {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ============================
+   CATEGORY GRID
+============================ */
+.category-grid {
+    width: 90%;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.category-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: 0.3s ease-in-out;
+}
+
+.category-card img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.1);
+}
+
+.card-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+
+/* ============================
+   TRENDING NOW GRID
+============================ */
+.trending-grid {
+    width: 90%;
+    margin: 40px auto 70px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.trend-item {
+    text-align: center;
+}
+
+.trend-item img {
+    width: 100%;
+    height: 260px;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: 0.4s ease;
+}
+
+.trend-item img:hover {
+    transform: scale(1.05);
+}
+
+.trend-item p {
+    margin-top: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ============================
+   LOGIN FORM
+============================ */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    padding: 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    background-color: #fff;
+}
+
+.login-card h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #f84258;
+}
+
+.login-card p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.login-card .form-control {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.login-card button {
+    background-color: #f84258;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    transition: 0.3s ease;
+}
+
+.login-card button:hover {
+    background-color: #d3304b;
+}
+
+.login-card a {
+    color: #f84258;
+    text-decoration: none;
+}
+
+.login-card a:hover {
+    text-decoration: underline;
+}
+
+/* ============================
+   CONTACT US FORM
+============================ */
+.contact-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.contact-container h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #f84258;
+}
+
+.contact-container .form-control {
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.contact-container button {
+    background-color: #f84258;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    transition: 0.3s ease;
+}
+
+.contact-container button:hover {
+    background-color: #d3304b;
+}
+
+/* ============================
+   FOOTER
+============================ */
+footer {
+    background-color: #111;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+/* ============================
+   MEDIA QUERIES
+============================ */
+@media screen and (max-width: 768px) {
+    .category-card img,
+    .trend-item img {
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | Urban Aura</title>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="Css/navbar.css" />
+<style>
+.about-wrapper{ padding:80px 0; text-align:center; }
+.about-wrapper h2{ font-size:32px; margin-bottom:30px; }
+.about-wrapper p{ max-width:700px; margin:15px auto; color:#555; line-height:1.8; }
+.stat-box{ background:#f8f8f8; padding:30px; border-radius:10px; transition:.3s; }
+.stat-box:hover{ transform:translateY(-5px); }
+.stat-box h3{ font-size:28px; margin-bottom:10px; }
+</style>
+</head>
+<body>
+
+<nav class="ua-nav">
+  <a href="index.html" class="ua-logo">URBAN AURA FASHION</a>
+  <ul class="ua-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <li class="nav-login" id="nav-login-item"><a href="login.html">Login</a></li>
+    <li class="nav-logout" id="nav-logout-item" style="display:none;"><a href="logout.php">Logout</a></li>
+  </ul>
+  <div class="ua-icons">
+    <a href="profile.php" class="ua-profile" id="ua-profile-link">
+      <i class="ri-user-line"></i><span id="ua-profile-name"></span>
+    </a>
+    <a href="cart.html" class="ua-cart">
+      <i class="ri-shopping-bag-2-line"></i>
+      <span id="ua-cart-badge" class="ua-cart-badge"></span>
+    </a>
+  </div>
+</nav>
+<div class="ua-nav-spacer"></div>
+
+<section class="section__container about-wrapper">
+  <h2>About UrbanAura Fashion</h2>
+  <p>UrbanAura Fashion is your destination for modern, bold, and affordable fashion. We believe style is a form of self-expression and everyone deserves to look confident every day.</p>
+  <p>Our collections blend streetwear trends with timeless elegance for men, women, and kids. Every piece is crafted to deliver comfort, quality, and attitude.</p>
+  <p>From seamless browsing to secure checkout and fast delivery, we focus on creating a premium online shopping experience you'll love coming back to.</p>
+
+  <div class="row" style="margin-top:50px;">
+    <div class="col-md-4"><div class="stat-box"><h3>10K+</h3><p>Happy Customers</p></div></div>
+    <div class="col-md-4"><div class="stat-box"><h3>500+</h3><p>Fashion Products</p></div></div>
+    <div class="col-md-4"><div class="stat-box"><h3>24/7</h3><p>Customer Support</p></div></div>
+  </div>
+</section>
+
+<hr>
+<footer class="section__container footer__container">
+  <div class="footer__col"><h4 class="footer__heading">CONTACT INFO</h4><p><i class="ri-map-pin-2-fill"></i> 123, London Bridge Street, London</p><p><i class="ri-mail-fill"></i> support@urbanaura.com</p><p><i class="ri-phone-fill"></i> (+012) 3456 789</p></div>
+  <div class="footer__col"><h4 class="footer__heading">COMPANY</h4><p>Home</p><p>About Us</p><p>Work With Us</p><p>Our Blog</p></div>
+  <div class="footer__col"><h4 class="footer__heading">USEFUL LINK</h4><p>Help</p><p>Track My Order</p><p>Men</p><p>Women</p></div>
+  <div class="footer__col"><h4 class="footer__heading">INSTAGRAM</h4><div class="instagram__grid"><img src="assets/instagram-1.jpg" alt=""><img src="assets/instagram-2.jpg" alt=""><img src="assets/instagram-3.jpg" alt=""><img src="assets/instagram-4.jpg" alt=""><img src="assets/instagram-5.jpg" alt=""><img src="assets/instagram-6.jpg" alt=""></div></div>
+</footer>
+<hr>
+<div class="section__container footer__bar">
+  <div class="copyright">Copyright © 2026 Khushi Bhatega.</div>
+  <div class="footer__form"><form><input type="text" placeholder="ENTER YOUR EMAIL" /><button class="btn" type="submit">SUBSCRIBE</button></form></div>
+</div>
+
+<script src="Js/navbar.js"></script>
+<script src="Js/cart.js"></script>
+</body>
+</html>

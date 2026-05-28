@@ -1,0 +1,105 @@
+/* ============================
+   REGISTRATION PAGE STYLING
+============================ */
+body {
+    background-color: #f8f8f8;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container to center form */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+/* Form Card */
+.login-card {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.login-card h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.login-card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* Input Fields */
+.login-card input.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card input.form-control:focus {
+    outline: none;
+    border-color: #f84258;
+    box-shadow: 0 0 8px rgba(248, 66, 88, 0.4);
+}
+
+/* Submit Button */
+.login-card button {
+    width: 100%;
+    padding: 12px;
+    background: #f84258;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.login-card button:hover {
+    background: #d13043;
+    transform: translateY(-2px);
+}
+
+/* Link below form */
+.login-card p a {
+    color: #f84258;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-card p a:hover {
+    color: #d13043;
+}
+
+/* Responsive for smaller devices */
+@media screen and (max-width: 480px) {
+    .login-card {
+        padding: 30px 20px;
+    }
+    .login-card h2 {
+        font-size: 1.6rem;
+    }
+}

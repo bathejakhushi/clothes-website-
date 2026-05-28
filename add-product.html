@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Product</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      padding: 30px 0;
+    }
+    .form-card {
+      background: rgba(255,255,255,0.97);
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      overflow: hidden;
+      max-width: 960px;
+      margin: 0 auto;
+      animation: fadeIn 0.6s ease;
+    }
+    .form-header {
+      background: linear-gradient(135deg, #111 60%, #f84258);
+      color: #fff;
+      padding: 24px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .form-header h3 { margin: 0; font-size: 22px; font-weight: 700; }
+    .form-header a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      opacity: 0.8;
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 5px 14px;
+      border-radius: 20px;
+      transition: 0.2s;
+    }
+    .form-header a:hover { opacity: 1; background: rgba(255,255,255,0.15); }
+    .form-body { padding: 36px; }
+    .two-col {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+    .img-col { display: flex; flex-direction: column; gap: 14px; }
+    .img-upload-area {
+      border: 2px dashed #ced4da;
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f8f9fa;
+      position: relative;
+    }
+    .img-upload-area:hover { border-color: #f84258; background: #fff5f6; }
+    .img-upload-area.has-img { border-color: #28a745; border-style: solid; background: #f0fff4; }
+    .img-upload-area input[type=file] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+    }
+    .upload-icon { font-size: 36px; margin-bottom: 8px; }
+    .upload-text { font-size: 13px; color: #6c757d; }
+    .upload-text strong { color: #343a40; }
+    .img-preview-wrap {
+      display: none;
+      text-align: center;
+      position: relative;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    .img-preview-wrap img {
+      width: 140px; height: 160px;
+      object-fit: cover; border-radius: 10px;
+      border: 2px solid #28a745;
+    }
+    .img-remove {
+      position: absolute; top: -8px; right: -8px;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #dc3545; color: #fff;
+      border: none; font-size: 13px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; line-height: 1;
+    }
+    .img-remove:hover { background: #c0392b; }
+    .img-hint { font-size: 11px; color: #aaa; text-align: center; line-height: 1.5; }
+    .fields-col { display: flex; flex-direction: column; gap: 14px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field-row.single { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px 13px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: 0.2s;
+      background: #fafafa;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #f84258;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(248,66,88,0.08);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    /* SIZE PILLS */
+    .size-pills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .size-pill {
+      padding: 6px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.18s;
+      user-select: none;
+    }
+    .size-pill:hover { border-color: #f84258; color: #f84258; }
+    .size-pill.active { border-color: #f84258; background: #f84258; color: #fff; }
+    .size-hint { font-size: 11px; color: #aaa; margin-top: 4px; }
+
+    .btn-area { display: flex; gap: 12px; margin-top: 8px; align-items: center; }
+    .btn-save {
+      background: #f84258; color: #fff; border: none;
+      padding: 11px 32px; border-radius: 30px;
+      font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s;
+    }
+    .btn-save:hover { background: #111; }
+    .btn-reset {
+      background: transparent; color: #888;
+      border: 1.5px solid #ddd; padding: 11px 22px;
+      border-radius: 30px; font-size: 13px; cursor: pointer; transition: 0.3s;
+    }
+    .btn-reset:hover { border-color: #f84258; color: #f84258; }
+    .btn-back {
+      background: #111; color: #fff; border: none;
+      padding: 11px 22px; border-radius: 30px;
+      font-size: 13px; cursor: pointer;
+      text-decoration: none; display: inline-block; transition: 0.3s;
+    }
+    .btn-back:hover { background: #f84258; color: #fff; }
+    #msg {
+      padding: 11px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 600;
+      margin-top: 10px; display: none;
+    }
+    #msg.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+    #msg.error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+    .sec-label {
+      font-size: 11px; font-weight: 700; color: #f84258;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 2px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-15px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; }
+      .field-row { grid-template-columns: 1fr; }
+      .form-body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-card">
+  <div class="form-header">
+    <h3>Add New Product 👗</h3>
+    <a href="Adminproducts.html">⬅ Back to Admin</a>
+  </div>
+
+  <div class="form-body">
+    <form id="addProductForm">
+      <div class="two-col">
+
+        <!-- LEFT: IMAGE -->
+        <div class="img-col">
+          <div class="sec-label">Product Image</div>
+          <div class="img-preview-wrap" id="imgPreviewWrap">
+            <img id="imgPreview" src="" alt="Preview">
+            <button type="button" class="img-remove" onclick="removeImage()">✕</button>
+          </div>
+          <div class="img-upload-area" id="uploadArea">
+            <input type="file" id="imgFile" accept="image/*" onchange="handleImage(this)">
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text"><strong>Click to choose image</strong></div>
+            <div style="font-size:11px;color:#aaa;margin-top:4px;">JPG, PNG, WEBP — Max 5MB</div>
+          </div>
+          <div class="img-hint">📁 Pick a photo from your computer.<br>It will be saved to the website automatically.</div>
+        </div>
+
+        <!-- RIGHT: FIELDS -->
+        <div class="fields-col">
+          <div class="sec-label">Product Details</div>
+
+          <div class="form-group">
+            <label>Product Name *</label>
+            <input type="text" id="name" placeholder="e.g. Blue Casual Shirt" required>
+          </div>
+
+          <div class="field-row">
+            <div class="form-group">
+              <label>Category *</label>
+              <select id="category_id" required onchange="updateSubcategories()">
+                <option value="">Select Category</option>
+                <option value="1">Men</option>
+                <option value="2">Women</option>
+                <option value="3">Kids</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Subcategory *</label>
+              <select id="subcategory" required onchange="updateSizes()">
+                <option value="">Select Category First</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SIZE SELECTION -->
+          <div class="form-group" id="sizeGroup">
+            <label>Available Sizes *</label>
+            <div class="size-pills-wrap" id="sizePills">
+              <span style="font-size:13px;color:#aaa;">Select subcategory first</span>
+            </div>
+            <div class="size-hint" id="sizeHint"></div>
+            <input type="hidden" id="sizes">
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="description" placeholder="Describe the product — fabric, style, occasion..."></textarea>
+          </div>
+
+          <div class="field-row">
+            <div class="form-group">
+              <label>Price (₹) *</label>
+              <input type="number" id="price" placeholder="e.g. 999" min="0" required>
+            </div>
+            <div class="form-group">
+              <label>Stock Quantity *</label>
+              <input type="number" id="stock" placeholder="e.g. 50" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Status *</label>
+            <select id="status" required>
+              <option value="">Select Status</option>
+              <option value="available">✅ Available</option>
+              <option value="out_of_stock">❌ Out of Stock</option>
+            </select>
+          </div>
+
+          <div class="btn-area">
+            <button type="submit" class="btn-save">💾 Save Product</button>
+            <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
+            <a href="Adminproducts.html" class="btn-back">⬅ Back</a>
+          </div>
+
+          <div id="msg"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const API = 'http://localhost/clothes%28website%29/api';
+  let imageBase64 = '';
+
+  const subcategories = {
+    1: ['Shirts','T-Shirts','Jeans','Mens Shoes'],
+    2: ['Womens Kurtis','Womens Western','Womens Shoes','Womens Heels'],
+    3: ['Boys Wear','Girls Wear','Kids Footwear','Kids Winter']
+  };
+
+  // Size options per subcategory
+  const sizeOptions = {
+    'Shirts':         { sizes: ['S','M','L','XL','XXL'], hint: 'Clothing sizes' },
+    'T-Shirts':       { sizes: ['S','M','L','XL','XXL'], hint: 'Clothing sizes' },
+    'Jeans':          { sizes: ['28','30','32','34','36'], hint: 'Waist sizes in inches' },
+    'Mens Shoes':     { sizes: ['6','7','8','9','10','11'], hint: 'UK shoe sizes' },
+    'Womens Kurtis':  { sizes: ['S','M','L','XL','XXL'], hint: 'Clothing sizes' },
+    'Womens Western': { sizes: ['S','M','L','XL','XXL'], hint: 'Clothing sizes' },
+    'Womens Shoes':   { sizes: ['35','36','37','38','39'], hint: 'EU shoe sizes' },
+    'Womens Heels':   { sizes: ['35','36','37','38','39'], hint: 'EU shoe sizes' },
+    'Boys Wear':      { sizes: ['S','M','L','XL'], hint: 'Kids clothing sizes' },
+    'Girls Wear':     { sizes: ['S','M','L','XL'], hint: 'Kids clothing sizes' },
+    'Kids Footwear':  { sizes: ['25','26','27','28','29','30','31','32','33'], hint: 'Kids EU shoe sizes' },
+    'Kids Winter':    { sizes: ['S','M','L','XL'], hint: 'Kids clothing sizes' },
+  };
+
+  let selectedSizes = [];
+
+  function updateSubcategories() {
+    const catId = document.getElementById('category_id').value;
+    const subSelect = document.getElementById('subcategory');
+    selectedSizes = [];
+    document.getElementById('sizes').value = '';
+    if (!catId) {
+      subSelect.innerHTML = '<option value="">Select Category First</option>';
+      document.getElementById('sizePills').innerHTML = '<span style="font-size:13px;color:#aaa;">Select subcategory first</span>';
+      document.getElementById('sizeHint').textContent = '';
+      return;
+    }
+    subSelect.innerHTML = '<option value="">Select Subcategory</option>' +
+      subcategories[catId].map(s => `<option value="${s}">${s}</option>`).join('');
+    document.getElementById('sizePills').innerHTML = '<span style="font-size:13px;color:#aaa;">Select subcategory first</span>';
+    document.getElementById('sizeHint').textContent = '';
+  }
+
+  function updateSizes() {
+    const sub = document.getElementById('subcategory').value;
+    const pillsWrap = document.getElementById('sizePills');
+    const hintEl = document.getElementById('sizeHint');
+    selectedSizes = [];
+    document.getElementById('sizes').value = '';
+
+    if (!sub || !sizeOptions[sub]) {
+      pillsWrap.innerHTML = '<span style="font-size:13px;color:#aaa;">No sizes available</span>';
+      hintEl.textContent = '';
+      return;
+    }
+
+    const { sizes, hint } = sizeOptions[sub];
+    hintEl.textContent = '📌 ' + hint + ' — Click to select/deselect';
+    pillsWrap.innerHTML = sizes.map(s =>
+      `<span class="size-pill" onclick="toggleSize(this,'${s}')">${s}</span>`
+    ).join('');
+  }
+
+  function toggleSize(el, size) {
+    el.classList.toggle('active');
+    if (el.classList.contains('active')) {
+      selectedSizes.push(size);
+    } else {
+      selectedSizes = selectedSizes.filter(s => s !== size);
+    }
+    document.getElementById('sizes').value = selectedSizes.join(',');
+  }
+
+  function handleImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('Image too large! Please choose under 5MB.'); return; }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      imageBase64 = e.target.result;
+      document.getElementById('imgPreview').src = imageBase64;
+      document.getElementById('imgPreviewWrap').style.display = 'block';
+      document.getElementById('uploadArea').classList.add('has-img');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeImage() {
+    imageBase64 = '';
+    document.getElementById('imgPreviewWrap').style.display = 'none';
+    document.getElementById('uploadArea').classList.remove('has-img');
+    document.getElementById('imgFile').value = '';
+  }
+
+  function resetForm() {
+    removeImage();
+    selectedSizes = [];
+    document.getElementById('sizes').value = '';
+    document.getElementById('subcategory').innerHTML = '<option value="">Select Category First</option>';
+    document.getElementById('sizePills').innerHTML = '<span style="font-size:13px;color:#aaa;">Select subcategory first</span>';
+    document.getElementById('sizeHint').textContent = '';
+    document.getElementById('addProductForm').reset();
+    const msg = document.getElementById('msg');
+    msg.className = '';
+    msg.style.display = 'none';
+  }
+
+  document.getElementById('addProductForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (selectedSizes.length === 0) {
+      alert('⚠️ Please select at least one size!');
+      return;
+    }
+
+    const btn = document.querySelector('.btn-save');
+    btn.textContent = '⏳ Saving...';
+    btn.disabled = true;
+
+    const product = {
+      name:        document.getElementById('name').value,
+      category_id: document.getElementById('category_id').value,
+      subcategory: document.getElementById('subcategory').value,
+      description: document.getElementById('description').value,
+      price:       document.getElementById('price').value,
+      stock:       document.getElementById('stock').value,
+      status:      document.getElementById('status').value,
+      sizes:       document.getElementById('sizes').value,
+      image:       imageBase64
+    };
+
+    const msg = document.getElementById('msg');
+    try {
+      const res  = await fetch(`${API}/add_product.php`, {
+        method : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body   : JSON.stringify(product)
+      });
+      const data = await res.json();
+      if (data.success) {
+        msg.className = 'success';
+        msg.textContent = '✅ Product added successfully! Redirecting...';
+        setTimeout(() => window.location.href = 'Adminproducts.html', 1500);
+      } else {
+        msg.className = 'error';
+        msg.textContent = '❌ Error: ' + (data.error || 'Something went wrong.');
+      }
+    } catch(err) {
+      msg.className = 'error';
+      msg.textContent = '❌ Cannot connect. Make sure XAMPP is running.';
+    }
+    btn.textContent = '💾 Save Product';
+    btn.disabled = false;
+  });
+</script>
+</body>
+</html>

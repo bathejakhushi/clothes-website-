@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products | Urban Aura</title>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.cart-icon{ position:relative; font-size:22px; color:#000; text-decoration:none; }
+.cart-badge{ position:absolute; top:-8px; right:-10px; background:red; color:#fff; font-size:12px; padding:2px 6px; border-radius:50%; }
+
+.page-hero {
+  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+  padding: 100px 0; color: #fff; text-align: center;
+}
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.breadcrumb-bar {
+  padding: 14px 30px; font-size: 14px; color: #888;
+  border-bottom: 1px solid #eee;
+}
+.breadcrumb-bar a { color: #000; text-decoration: none; font-weight: 600; }
+.breadcrumb-bar a:hover { text-decoration: underline; }
+
+/* ✅ Your existing product card style */
+.product-card {
+  transition: transform .3s ease;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+.product-card:hover { transform: translateY(-5px); }
+
+.product-img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+.price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #0071e3;
+}
+
+.card-body { padding: 15px; }
+.card-body h5 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+.card-body p { font-size: 13px; color: #777; margin-bottom: 8px; }
+
+.stock-info { font-size: 12px; margin-bottom: 10px; }
+
+.btn-cart {
+  background: #000; color: #fff; border: none;
+  border-radius: 30px; padding: 8px 20px;
+  font-size: 13px; cursor: pointer; width: 100%;
+  transition: 0.3s; font-weight: 600;
+}
+.btn-cart:hover { background: #333; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 80px 20px; }
+.empty-state i { font-size: 60px; color: #ddd; margin-bottom: 20px; display: block; }
+.empty-state h4 { color: #aaa; }
+.empty-state p { color: #ccc; font-size: 14px; }
+
+.back-btn {
+  display: inline-block; margin: 20px 0;
+  background: #000; color: #fff;
+  padding: 10px 25px; border-radius: 30px;
+  text-decoration: none; font-weight: 600; transition: 0.3s;
+}
+.back-btn:hover { background: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="header__bar"></div>
+
+<!-- NAVIGATION -->
+<nav class="section__container nav__container">
+  <a href="index.html" class="nav__logo">URBAN AURA FASHION</a>
+  <ul class="nav__links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Login</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+  </ul>
+  <div class="nav__icons">
+    <a href="cart.html" class="cart-icon">
+      <i class="ri-shopping-bag-2-line"></i>
+      <span id="cart-count" class="cart-badge">0</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <h1 id="pageTitle">Loading...</h1>
+  <p id="pageSubtitle">Browse our collection</p>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <a href="index.html">Home</a> &rsaquo;
+  <a href="products.html">Products</a> &rsaquo;
+  <span id="breadcrumbSub">...</span>
+</div>
+
+<!-- PRODUCTS SECTION -->
+<div class="section__container" style="padding: 60px 20px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+    <h2 id="sectionTitle" style="font-size:26px; font-weight:800; margin:0;"></h2>
+    <a href="products.html" class="back-btn">← Back</a>
+  </div>
+
+  <div class="row g-4" id="productsGrid">
+    <div class="col-12 empty-state">
+      <i class="ri-loader-4-line"></i>
+      <h4>Loading products...</h4>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="section__container footer__container">
+  <div class="footer__col">
+    <h4 class="footer__heading">CONTACT INFO</h4>
+    <p><i class="ri-map-pin-2-fill"></i> 123, London Bridge Street, London</p>
+    <p><i class="ri-mail-fill"></i> support@urbanaura.com</p>
+    <p><i class="ri-phone-fill"></i> (+012) 3456 789</p>
+  </div>
+  <div class="footer__col">
+    <h4 class="footer__heading">COMPANY</h4>
+    <p>Home</p><p>About Us</p><p>Work With Us</p><p>Our Blog</p>
+  </div>
+  <div class="footer__col">
+    <h4 class="footer__heading">USEFUL LINK</h4>
+    <p>Help</p><p>Track My Order</p><p>Men</p><p>Women</p>
+  </div>
+  <div class="footer__col">
+    <h4 class="footer__heading">INSTAGRAM</h4>
+    <div class="instagram__grid">
+      <img src="assets/instagram-1.jpg" alt=""><img src="assets/instagram-2.jpg" alt="">
+      <img src="assets/instagram-3.jpg" alt=""><img src="assets/instagram-4.jpg" alt="">
+      <img src="assets/instagram-5.jpg" alt=""><img src="assets/instagram-6.jpg" alt="">
+    </div>
+  </div>
+</footer>
+<hr>
+<div class="section__container footer__bar">
+  <div class="copyright">Copyright © 2026 Khushi Bhatega.</div>
+  <div class="footer__form">
+    <form>
+      <input type="text" placeholder="ENTER YOUR EMAIL" />
+      <button class="btn" type="submit">SUBSCRIBE</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost/clothes%28website%29/api';
+const categoryNames = { 1: 'Men', 2: 'Women', 3: 'Kids' };
+
+const params = new URLSearchParams(window.location.search);
+const catId = params.get('cat');
+const subName = params.get('sub');
+
+// Set titles
+document.getElementById('pageTitle').innerText = subName || 'Products';
+document.getElementById('pageSubtitle').innerText = `${categoryNames[catId] || ''} — ${subName || ''}`;
+document.getElementById('breadcrumbSub').innerText = subName || '';
+document.getElementById('sectionTitle').innerText = subName || 'Products';
+
+async function loadProducts() {
+  const grid = document.getElementById('productsGrid');
+  try {
+    const res = await fetch(`${API}/get_products.php`);
+    const products = await res.json();
+
+    const filtered = products.filter(p =>
+      p.category_id == catId &&
+      p.subcategory === subName &&
+      p.status === 'available'
+    );
+
+    if (!filtered.length) {
+      grid.innerHTML = `
+        <div class="col-12 empty-state">
+          <i class="ri-shopping-bag-line"></i>
+          <h4>No products yet</h4>
+          <p>No products added under "${subName}" yet. Check back soon!</p>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(p => `
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="product-card">
+          <div style="background:#f5f5f5; height:260px; display:flex; align-items:center; justify-content:center;">
+            <i class="ri-image-line" style="font-size:60px; color:#ccc;"></i>
+          </div>
+          <div class="card-body">
+            <h5>${p.product_name}</h5>
+            <p>${p.description}</p>
+            <div class="price">₹${parseFloat(p.price).toLocaleString('en-IN')}</div>
+            <div class="stock-info">
+              <span class="badge ${p.stock > 0 ? 'bg-success' : 'bg-danger'}">
+                ${p.stock > 0 ? `In Stock (${p.stock})` : 'Out of Stock'}
+              </span>
+            </div>
+            <button class="btn-cart" onclick="addToCart(${p.product_id}, '${p.product_name}', ${p.price})"
+              ${p.stock <= 0 ? 'disabled style="background:#ccc; cursor:not-allowed;"' : ''}>
+              🛒 Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    grid.innerHTML = `
+      <div class="col-12 empty-state">
+        <i class="ri-error-warning-line"></i>
+        <h4>Could not load products</h4>
+        <p>Open via localhost, not file://</p>
+      </div>`;
+  }
+}
+
+function addToCart(id, name, price) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const existing = cart.find(item => item.id === id);
+  if (existing) { existing.quantity += 1; }
+  else { cart.push({ id, name, price, quantity: 1 }); }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  alert(`✅ ${name} added to cart!`);
+}
+
+function updateCartCount() {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let total = 0;
+  cart.forEach(item => total += item.quantity);
+  document.getElementById('cart-count').innerText = total;
+}
+
+loadProducts();
+updateCartCount();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

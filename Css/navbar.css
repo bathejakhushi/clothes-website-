@@ -1,0 +1,129 @@
+/* ============================================================
+   URBAN AURA — UNIFIED NAVBAR (paste this into your styles.css
+   OR link <link rel="stylesheet" href="navbar.css"> on every page)
+   ============================================================ */
+
+/* ── Reset nav conflict ── */
+nav, .nav__container {
+  all: unset;
+  display: flex !important;
+}
+
+/* ── Main navbar ── */
+.ua-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: #111;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.45);
+}
+
+/* ── Logo ── */
+.ua-logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+.ua-logo:hover { color: #f84258; }
+
+/* ── Nav links ── */
+.ua-links {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 6px;
+  margin: 0; padding: 0;
+}
+.ua-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 6px 13px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.ua-links a:hover,
+.ua-links a.active { color: #fff; background: rgba(255,255,255,0.08); }
+
+/* Login link styled as pill */
+.ua-links .nav-login a {
+  background: #f84258;
+  color: #fff;
+  border-radius: 20px;
+  padding: 6px 16px;
+}
+.ua-links .nav-login a:hover { background: #d6253a; }
+
+/* Logout link */
+.ua-links .nav-logout a { color: #f84258; }
+.ua-links .nav-logout a:hover { color: #ff6b7a; background: rgba(248,66,88,0.1); }
+
+/* ── Right icons area ── */
+.ua-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Profile pill */
+.ua-profile {
+  display: none; /* shown by JS when logged in */
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+  text-decoration: none;
+  background: #f0ede8;
+  padding: 5px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.ua-profile:hover { background: #fff; color: #111; }
+.ua-profile i { font-size: 15px; }
+
+/* Cart icon */
+.ua-cart {
+  position: relative;
+  font-size: 22px;
+  color: #fff;
+  text-decoration: none;
+  line-height: 1;
+}
+.ua-cart:hover { color: #f84258; }
+.ua-cart-badge {
+  position: absolute;
+  top: -8px; right: -10px;
+  background: #f84258;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 50%;
+  display: none;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* ── Spacer so content isn't hidden under fixed nav ── */
+.ua-nav-spacer { height: 64px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .ua-nav { padding: 0 16px; }
+  .ua-links { gap: 2px; }
+  .ua-links a { font-size: 12px; padding: 5px 8px; }
+  .ua-logo { font-size: 16px; }
+}

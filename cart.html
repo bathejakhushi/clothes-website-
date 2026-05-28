@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URBAN AURA | Shopping Cart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #f8f6f3; color: #1a1a1a; }
+    .cart-icon { position: relative; font-size: 22px; color: #000; text-decoration: none; }
+    .cart-badge { position: absolute; top: -8px; right: -10px; background: #c0392b; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 50%; display: none; }
+    .cart-hero { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 80px 40px 50px; text-align: center; position: relative; overflow: hidden; }
+    .cart-hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px); }
+    .cart-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); color: #fff; font-weight: 700; position: relative; }
+    .cart-hero p { color: #888; margin-top: 8px; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; position: relative; }
+    .item-count-pill { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #ccc; font-size: 12px; padding: 4px 14px; border-radius: 20px; margin-top: 12px; position: relative; }
+    .cart-layout { max-width: 1200px; margin: 0 auto; padding: 50px 24px 80px; display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+    @media (max-width: 900px) { .cart-layout { grid-template-columns: 1fr; } }
+    .cart-items-list { display: flex; flex-direction: column; gap: 16px; }
+    .cart-item { background: #fff; border-radius: 16px; padding: 20px; display: flex; gap: 20px; align-items: center; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s; animation: slideIn 0.35s ease both; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .cart-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .item-image-wrap { width: 110px; height: 120px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: #f0ede8; }
+    .item-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .cart-item:hover .item-image-wrap img { transform: scale(1.06); }
+    .img-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f0ede8, #e8e3dc); color: #999; font-size: 11px; text-align: center; gap: 6px; }
+    .img-placeholder i { font-size: 28px; color: #bbb; }
+    .item-details { flex: 1; }
+    .item-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+    .item-price { font-size: 14px; color: #888; margin-bottom: 6px; }
+    .item-price strong { font-size: 16px; color: #1a1a1a; }
+    .size-tag { display: inline-flex; align-items: center; gap: 5px; background: #f0ede8; border: 1px solid #ddd8d0; border-radius: 6px; padding: 3px 10px; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 12px; }
+    .size-tag span { color: #999; font-weight: 400; }
+    .qty-controls { display: flex; align-items: center; border: 1.5px solid #e0dbd4; border-radius: 8px; overflow: hidden; width: fit-content; margin-bottom: 8px; }
+    .qty-btn { width: 36px; height: 36px; background: #f8f6f3; border: none; font-size: 18px; color: #1a1a1a; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; justify-content: center; }
+    .qty-btn:hover:not(:disabled) { background: #ede9e3; }
+    .qty-btn:disabled { color: #ccc; cursor: not-allowed; }
+    .qty-num { width: 42px; text-align: center; font-size: 15px; font-weight: 600; color: #1a1a1a; border-left: 1.5px solid #e0dbd4; border-right: 1.5px solid #e0dbd4; height: 36px; line-height: 36px; }
+    .stock-warning { font-size: 12px; color: #c0392b; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; background: #fff5f5; border: 1px solid #fdd; border-radius: 6px; padding: 5px 10px; width: fit-content; }
+    .remove-btn { background: none; border: none; color: #bbb; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 0; transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
+    .remove-btn:hover { color: #c0392b; }
+    .item-subtotal { text-align: right; flex-shrink: 0; }
+    .item-subtotal-label { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .item-subtotal-amount { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; color: #1a1a1a; }
+    .empty-cart { background: #fff; border-radius: 16px; padding: 80px 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .empty-cart i { font-size: 56px; color: #ddd; margin-bottom: 16px; display: block; }
+    .empty-cart h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: #555; margin-bottom: 8px; }
+    .empty-cart p { color: #aaa; font-size: 14px; margin-bottom: 24px; }
+    .btn-shop { display: inline-block; background: #1a1a1a; color: #fff; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: background 0.2s; }
+    .btn-shop:hover { background: #333; color: #fff; }
+    .order-summary { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); position: sticky; top: 24px; }
+    .summary-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1.5px solid #f0ede8; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 14px; color: #666; border-bottom: 1px solid #f8f6f3; }
+    .summary-row.total { border-bottom: none; margin-top: 8px; padding-top: 16px; border-top: 2px solid #1a1a1a; }
+    .summary-row.total span:first-child { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+    .summary-row.total span:last-child { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #1a1a1a; }
+    .free-shipping { background: #f0faf4; border: 1px solid #b7e3c8; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #2e7d4f; display: flex; align-items: center; gap: 8px; margin: 16px 0; }
+    .checkout-btn { width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 16px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-top: 20px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .checkout-btn:hover { background: #333; transform: translateY(-1px); }
+    .continue-link { display: block; text-align: center; margin-top: 14px; font-size: 13px; color: #aaa; text-decoration: none; }
+    .continue-link:hover { color: #1a1a1a; }
+  </style>
+</head>
+<body>
+<div class="header__bar"></div>
+
+<nav class="section__container nav__container">
+  <a href="index.html" class="nav__logo">URBAN AURA FASHION</a>
+  <ul class="nav__links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+  </ul>
+  <div class="nav__icons">
+    <a href="cart.html" class="cart-icon">
+      <i class="ri-shopping-bag-2-line"></i>
+      <span id="cart-count" class="cart-badge"></span>
+    </a>
+  </div>
+</nav>
+
+<div class="cart-hero">
+  <h1>Shopping Cart</h1>
+  <p>Review &amp; confirm your items</p>
+  <div class="item-count-pill" id="heroCount">0 items</div>
+</div>
+
+<div class="cart-layout">
+  <div>
+    <div id="cartItemsList" class="cart-items-list"></div>
+    <div id="emptyCart" class="empty-cart" style="display:none;">
+      <i class="ri-shopping-bag-line"></i>
+      <h3>Your cart is empty</h3>
+      <p>Looks like you haven't added anything yet.</p>
+      <a href="products.html" class="btn-shop">Continue Shopping</a>
+    </div>
+  </div>
+  <div id="cartSummary" style="display:none;">
+    <div class="order-summary">
+      <div class="summary-title">Order Summary</div>
+      <div class="summary-row">
+        <span>Subtotal (<span id="summaryQty">0</span> items)</span>
+        <span>₹<span id="summarySubtotal">0</span></span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span id="shippingText">₹99</span>
+      </div>
+      <div class="summary-row">
+        <span>Discount</span>
+        <span style="color:#2e7d4f;">−₹0</span>
+      </div>
+      <div id="freeShippingBadge" class="free-shipping" style="display:none;">
+        <i class="ri-truck-line"></i> You've unlocked <strong>&nbsp;FREE shipping!</strong>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>₹<span id="cartTotal">0</span></span>
+      </div>
+      <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+        <i class="ri-secure-payment-line"></i> Proceed to Checkout
+      </button>
+      <a href="products.html" class="continue-link">← Continue Shopping</a>
+    </div>
+  </div>
+</div>
+
+<hr>
+<footer class="section__container footer__container">
+  <div class="footer__col">
+    <h4 class="footer__heading">CONTACT INFO</h4>
+    <p><i class="ri-map-pin-2-fill"></i> 123, London Bridge Street, London</p>
+    <p><i class="ri-mail-fill"></i> support@urbanaura.com</p>
+    <p><i class="ri-phone-fill"></i> (+012) 3456 789</p>
+  </div>
+  <div class="footer__col">
+    <h4 class="footer__heading">COMPANY</h4>
+    <p>Home</p><p>About Us</p><p>Work With Us</p><p>Our Blog</p>
+  </div>
+  <div class="footer__col">
+    <h4 class="footer__heading">USEFUL LINK</h4>
+    <p>Help</p><p>Track My Order</p><p>Men</p><p>Women</p>
+  </div>
+  <div class="footer__col">
+    <h4 class="footer__heading">INSTAGRAM</h4>
+    <div class="instagram__grid">
+      <img src="assets/instagram-1.jpg" alt=""><img src="assets/instagram-2.jpg" alt="">
+      <img src="assets/instagram-3.jpg" alt=""><img src="assets/instagram-4.jpg" alt="">
+      <img src="assets/instagram-5.jpg" alt=""><img src="assets/instagram-6.jpg" alt="">
+    </div>
+  </div>
+</footer>
+<hr>
+<div class="section__container footer__bar">
+  <div class="copyright">Copyright © 2026 Khushi Bhatega.</div>
+  <div class="footer__form">
+    <form><input type="text" placeholder="ENTER YOUR EMAIL"><button class="btn" type="submit">SUBSCRIBE</button></form>
+  </div>
+</div>
+
+<script src="Js/cart.js"></script>
+<script>
+  function getCartFixed() {
+    try { return JSON.parse(localStorage.getItem("cart")) || []; }
+    catch(e) { return []; }
+  }
+
+  function updateCartBadge() {
+    const total = getCartFixed().reduce((s,i) => s + (parseInt(i.quantity)||1), 0);
+    const badge = document.getElementById("cart-count");
+    badge.innerText = total;
+    badge.style.display = total > 0 ? "inline-block" : "none";
+    document.getElementById("heroCount").innerText = total + (total===1?" item":" items");
+  }
+
+  // ✅ FIX: Build image element via DOM instead of innerHTML string
+  // This avoids broken quote-escaping in onerror attributes
+  function createImageElement(src, name, wrapEl) {
+    const letter = name ? name.charAt(0).toUpperCase() : "?";
+
+    function showPlaceholder() {
+      wrapEl.innerHTML = `
+        <div class="img-placeholder">
+          <i class="ri-t-shirt-line"></i>
+          <span>${letter}</span>
+        </div>`;
+    }
+
+    if (!src || src.trim() === "") {
+      showPlaceholder();
+      return;
+    }
+
+    const img = document.createElement("img");
+    img.alt = name || "Product";
+    img.style.opacity = "0";
+    img.style.transition = "opacity 0.3s";
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    img.style.display = "block";
+
+    img.onload = function() {
+      img.style.opacity = "1";
+    };
+
+    img.onerror = function() {
+      showPlaceholder();
+    };
+
+    // Set src last so onload/onerror are bound first
+    img.src = src;
+    wrapEl.appendChild(img);
+  }
+
+  function loadCart() {
+    const cart = getCartFixed();
+    const list = document.getElementById("cartItemsList");
+    list.innerHTML = "";
+
+    if (cart.length === 0) {
+      document.getElementById("emptyCart").style.display = "block";
+      document.getElementById("cartSummary").style.display = "none";
+      updateCartBadge();
+      return;
+    }
+
+    document.getElementById("emptyCart").style.display = "none";
+    document.getElementById("cartSummary").style.display = "block";
+
+    let subtotal = 0, totalQty = 0;
+
+    cart.forEach(function(item, index) {
+      const qty   = parseInt(item.quantity || item.qty) || 1;
+      const stock = parseInt(item.stock) || 999;
+      const img   = item.image || item.img || "";
+      const price = parseFloat(item.price) || 0;
+      const name  = item.name || "Unknown";
+      const size  = item.size || item.selectedSize || (item.sizeOptions && item.sizeOptions[0]) || "";
+      const itemTotal = price * qty;
+      subtotal  += itemTotal;
+      totalQty  += qty;
+
+      const sizeBadge = (size && size.trim() !== "" && size !== "undefined")
+        ? `<div class="size-tag"><span>Size:</span> ${size}</div>`
+        : "";
+
+      const atLimit = qty >= stock;
+
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.style.animationDelay = (index * 0.07) + "s";
+      div.innerHTML = `
+        <div class="item-image-wrap" id="imgWrap_${index}"></div>
+        <div class="item-details">
+          <div class="item-name">${name}</div>
+          <div class="item-price">Unit price: <strong>₹${price.toLocaleString('en-IN')}</strong></div>
+          ${sizeBadge}
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
+            <span class="qty-num">${qty}</span>
+            <button class="qty-btn" onclick="changeQty(${index}, 1)" ${atLimit ? 'style="color:#ccc;cursor:not-allowed;"' : ''}>+</button>
+          </div>
+          <div class="stock-warning" id="stockWarn_${index}" style="display:none;">
+            <i class="ri-error-warning-line"></i> Only ${stock} in stock — max limit reached!
+          </div>
+          <button class="remove-btn" onclick="removeItem(${index})">
+            <i class="ri-delete-bin-line"></i> Remove
+          </button>
+        </div>
+        <div class="item-subtotal">
+          <div class="item-subtotal-label">Subtotal</div>
+          <div class="item-subtotal-amount">₹${itemTotal.toLocaleString('en-IN')}</div>
+        </div>`;
+
+      list.appendChild(div);
+
+      // ✅ Now safely attach the image via DOM (no quote-escaping issues)
+      const wrap = document.getElementById("imgWrap_" + index);
+      createImageElement(img, name, wrap);
+    });
+
+    const shipping = subtotal >= 999 ? 0 : 99;
+    document.getElementById("summaryQty").innerText      = totalQty;
+    document.getElementById("summarySubtotal").innerText = subtotal.toLocaleString('en-IN');
+    document.getElementById("cartTotal").innerText       = (subtotal + shipping).toLocaleString('en-IN');
+    document.getElementById("shippingText").innerText    = shipping === 0 ? "FREE 🎉" : "₹99";
+    document.getElementById("freeShippingBadge").style.display = shipping === 0 ? "flex" : "none";
+    updateCartBadge();
+  }
+
+  function changeQty(index, delta) {
+    const cart  = getCartFixed();
+    const item  = cart[index];
+    const stock = parseInt(item.stock) || 999;
+    const currentQty = parseInt(item.quantity || item.qty || 1);
+
+    if (delta > 0 && currentQty >= stock) {
+      const warn = document.getElementById("stockWarn_" + index);
+      if (warn) {
+        warn.style.display = "flex";
+        setTimeout(() => { warn.style.display = "none"; }, 3000);
+      }
+      return;
+    }
+
+    const warn = document.getElementById("stockWarn_" + index);
+    if (warn) warn.style.display = "none";
+
+    const newQty = currentQty + delta;
+    if (newQty <= 0) { cart.splice(index, 1); }
+    else { item.quantity = newQty; item.qty = newQty; }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+  }
+
+  function removeItem(index) {
+    const cart = getCartFixed();
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+  }
+
+  loadCart();
+  window.addEventListener("storage", function(e) { if (e.key==="cart") loadCart(); });
+</script>
+</body>
+</html>

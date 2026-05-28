@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UrbanAura — Checkout</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: #f8f6f3; color: #1a1a1a; }
+    .checkout-hero { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 52px 40px 44px; text-align: center; position: relative; overflow: hidden; }
+    .checkout-hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px); pointer-events: none; }
+    .checkout-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); color: #fff; font-weight: 700; letter-spacing: -0.5px; position: relative; margin: 0; }
+    .checkout-hero p { color: #777; margin-top: 8px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; position: relative; }
+    .steps-bar { background: #fff; border-bottom: 1px solid #ede9e3; padding: 14px 40px; display: flex; justify-content: center; align-items: center; }
+    .step { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #bbb; }
+    .step.done { color: #2e7d4f; } .step.active { color: #1a1a1a; }
+    .step-num { width: 24px; height: 24px; border-radius: 50%; background: #e8e3dc; color: #999; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .step.done .step-num { background: #2e7d4f; color: #fff; } .step.active .step-num { background: #1a1a1a; color: #fff; }
+    .step-sep { width: 36px; height: 1px; background: #e0dbd4; margin: 0 10px; }
+    .checkout-layout { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; display: grid; grid-template-columns: 1fr 380px; gap: 28px; align-items: start; }
+    @media (max-width: 900px) { .checkout-layout { grid-template-columns: 1fr; } }
+    .section-card { background: #fff; border-radius: 16px; padding: 26px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); animation: fadeUp 0.4s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1.5px solid #f0ede8; display: flex; align-items: center; gap: 9px; color: #1a1a1a; }
+    .card-title i { font-size: 17px; color: #aaa; }
+    .order-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f5f3f0; }
+    .order-item:last-child { border-bottom: none; }
+    .oi-img { width: 70px; height: 76px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: linear-gradient(135deg, #f0ede8, #e8e3dc); }
+    .oi-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .oi-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #ccc; }
+    .oi-placeholder i { font-size: 26px; }
+    .oi-info { flex: 1; }
+    .oi-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .oi-meta { font-size: 12px; color: #999; margin-bottom: 6px; }
+    .size-badge { display: inline-block; background: #f0ede8; border: 1.5px solid #e0dbd4; border-radius: 6px; padding: 3px 10px; font-size: 12px; font-weight: 700; color: #555; margin-top: 4px; }
+    .oi-price { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; text-align: right; flex-shrink: 0; }
+    .coupon-row { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
+    .coupon-input { flex: 1; padding: 10px 14px; border: 1.5px solid #e0dbd4; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; background: #faf9f7; outline: none; }
+    .coupon-btn { background: #1a1a1a; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+    .coupon-hint { margin-top: 8px; font-size: 11px; color: #aaa; background: #f8f6f3; border-radius: 6px; padding: 7px 12px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; } .form-grid.full { grid-template-columns: 1fr; }
+    @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .form-group label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #999; }
+    .form-group input { padding: 11px 13px; border: 1.5px solid #e0dbd4; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: #1a1a1a; background: #faf9f7; outline: none; }
+    .form-group input:focus { border-color: #1a1a1a; background: #fff; } .form-group input::placeholder { color: #ccc; }
+    .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .pay-opt { border: 2px solid #e0dbd4; border-radius: 10px; padding: 13px 15px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 11px; font-size: 13px; font-weight: 500; background: #faf9f7; user-select: none; }
+    .pay-opt.active { border-color: #1a1a1a; background: #fff; box-shadow: 0 0 0 3px rgba(26,26,26,0.07); }
+    .pay-opt i { font-size: 21px; } .pay-opt.upi i { color: #2e7d4f; } .pay-opt.card i { color: #1565c0; } .pay-opt.wallet i { color: #e65100; } .pay-opt.cod i { color: #666; }
+    .pay-opt-sub { font-size: 10px; color: #aaa; margin-top: 1px; }
+    .summary-card { background: #fff; border-radius: 16px; padding: 26px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); position: sticky; top: 80px; }
+    .sum-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1.5px solid #f0ede8; }
+    .sum-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; font-size: 13px; color: #666; border-bottom: 1px solid #f8f6f3; }
+    .sum-row.grand { border-top: 2px solid #1a1a1a; border-bottom: none; margin-top: 8px; padding-top: 14px; }
+    .sum-row.grand span:first-child { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+    .sum-row.grand span:last-child { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: #1a1a1a; }
+    .sum-row.discount-row { color: #2e7d4f; }
+    .free-ship-badge { background: #f0faf4; border: 1px solid #b7e3c8; border-radius: 8px; padding: 9px 12px; font-size: 12px; color: #2e7d4f; display: none; align-items: center; gap: 7px; margin: 12px 0 4px; }
+    .delivery-est { background: #f8f6f3; border-radius: 8px; padding: 9px 12px; font-size: 11px; color: #999; display: flex; align-items: center; gap: 7px; margin: 12px 0; }
+    .place-btn { width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 17px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-top: 16px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 9px; }
+    .place-btn:hover { background: #333; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+    .place-btn:disabled { background: #999; cursor: not-allowed; transform: none; box-shadow: none; }
+    .secure-note { text-align: center; margin-top: 11px; font-size: 11px; color: #ccc; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .success-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .success-overlay.show { opacity: 1; pointer-events: all; }
+    .success-box { background: #fff; border-radius: 20px; padding: 50px 40px; text-align: center; max-width: 420px; width: 90%; transform: scale(0.88); transition: transform 0.3s; }
+    .success-overlay.show .success-box { transform: scale(1); }
+    .success-icon { font-size: 58px; margin-bottom: 14px; }
+    .success-box h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 10px; }
+    .success-box p { font-size: 14px; color: #888; line-height: 1.65; margin-bottom: 18px; }
+    .success-order-id { display: inline-block; background: #f8f6f3; border: 1px solid #e0dbd4; border-radius: 6px; padding: 6px 16px; font-size: 13px; font-weight: 700; color: #555; margin-bottom: 24px; }
+    .success-cta { background: #1a1a1a; color: #fff; border: none; padding: 14px 36px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<nav class="ua-nav">
+  <a href="index.html" class="ua-logo">URBAN AURA FASHION</a>
+  <ul class="ua-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <li class="nav-login" id="nav-login-item"><a href="login.html">Login</a></li>
+    <li class="nav-logout" id="nav-logout-item" style="display:none;"><a href="logout.php">Logout</a></li>
+  </ul>
+  <div class="ua-icons">
+    <a href="profile.php" class="ua-profile" id="ua-profile-link">
+      <i class="ri-user-line"></i><span id="ua-profile-name"></span>
+    </a>
+    <a href="cart.html" class="ua-cart">
+      <i class="ri-shopping-bag-2-line"></i>
+      <span id="ua-cart-badge" class="ua-cart-badge"></span>
+    </a>
+  </div>
+</nav>
+<div class="ua-nav-spacer"></div>
+
+<div class="checkout-hero">
+  <h1>Checkout</h1>
+  <p>You're almost there — complete your order</p>
+</div>
+
+<div class="steps-bar">
+  <div class="step done"><div class="step-num"><i class="ri-check-line" style="font-size:11px;"></i></div> Cart</div>
+  <div class="step-sep"></div>
+  <div class="step active"><div class="step-num">2</div> Checkout</div>
+  <div class="step-sep"></div>
+  <div class="step"><div class="step-num">3</div> Confirmation</div>
+</div>
+
+<div class="checkout-layout">
+  <div>
+    <div class="section-card">
+      <div class="card-title"><i class="ri-shopping-bag-line"></i> Order Summary</div>
+      <div id="orderItems"><p style="color:#aaa;text-align:center;padding:20px 0;">Loading...</p></div>
+      <div class="coupon-row">
+        <input type="text" class="coupon-input" id="couponInput" placeholder="Coupon code e.g. URBAN10" autocomplete="off">
+        <button class="coupon-btn" id="applyCouponBtn">Apply</button>
+        <span id="couponMsg" style="font-size:12px;font-weight:600;"></span>
+      </div>
+      <div class="coupon-hint">🏷️ Available: <strong>URBAN10</strong> (10% off) &nbsp;·&nbsp; <strong>FREE50</strong> (₹50 off) &nbsp;·&nbsp; <strong>FREESHIP</strong> (free shipping)</div>
+    </div>
+
+    <div class="section-card">
+      <div class="card-title"><i class="ri-map-pin-2-line"></i> Delivery Details</div>
+      <div class="form-grid">
+        <div class="form-group"><label>First Name</label><input type="text" id="firstName" placeholder="Khushi" autocomplete="off"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="lastName" placeholder="Bhatega" autocomplete="off"></div>
+      </div>
+      <div class="form-grid full"><div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="you@email.com" autocomplete="off"></div></div>
+      <div class="form-grid full"><div class="form-group"><label>Phone Number</label><input type="tel" id="phone" placeholder="+91 98765 43210" autocomplete="off"></div></div>
+      <div class="form-grid full"><div class="form-group"><label>Full Address</label><input type="text" id="address" placeholder="House/Flat No., Street, Area" autocomplete="off"></div></div>
+      <div class="form-grid">
+        <div class="form-group"><label>City</label><input type="text" id="city" placeholder="Mumbai" autocomplete="off"></div>
+        <div class="form-group"><label>PIN Code</label><input type="text" id="pincode" placeholder="400001" autocomplete="off"></div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="card-title"><i class="ri-bank-card-line"></i> Payment Method</div>
+      <div class="pay-grid">
+        <div class="pay-opt upi active" onclick="selectPay(this,'UPI')"><i class="ri-smartphone-line"></i><div><div>Pay with UPI</div><div class="pay-opt-sub">GPay, PhonePe, Paytm</div></div></div>
+        <div class="pay-opt card" onclick="selectPay(this,'Card')"><i class="ri-bank-card-2-line"></i><div><div>Credit / Debit Card</div><div class="pay-opt-sub">Visa, Mastercard, RuPay</div></div></div>
+        <div class="pay-opt wallet" onclick="selectPay(this,'Wallet')"><i class="ri-wallet-3-line"></i><div><div>Pay with Wallet</div><div class="pay-opt-sub">Paytm, Amazon Pay</div></div></div>
+        <div class="pay-opt cod" onclick="selectPay(this,'COD')"><i class="ri-money-rupee-circle-line"></i><div><div>Cash on Delivery</div><div class="pay-opt-sub">Pay when it arrives</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="summary-card">
+      <div class="sum-title">Price Details</div>
+      <div class="sum-row"><span>Subtotal (<span id="itemCountTxt">0</span> items)</span><span>₹<span id="subtotalTxt">0</span></span></div>
+      <div class="sum-row discount-row" id="discountRow" style="display:none;"><span>Discount</span><span>−₹<span id="discountTxt">0</span></span></div>
+      <div class="sum-row"><span>Shipping</span><span id="shippingTxt">₹99</span></div>
+      <div class="free-ship-badge" id="freeShipBadge"><i class="ri-truck-line"></i> You've unlocked <strong>&nbsp;FREE shipping!</strong></div>
+      <div class="delivery-est"><i class="ri-calendar-check-line"></i><span id="deliveryEst">Estimated delivery: calculating...</span></div>
+      <div class="sum-row grand"><span>Grand Total</span><span>₹<span id="grandTotalTxt">0</span></span></div>
+      <button class="place-btn" id="placeOrderBtn" onclick="placeOrder()"><i class="ri-secure-payment-line"></i> Place Order</button>
+      <div class="secure-note"><i class="ri-shield-check-line"></i> 256-bit SSL secured</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<footer class="section__container footer__container">
+  <div class="footer__col"><h4 class="footer__heading">CONTACT INFO</h4><p><i class="ri-map-pin-2-fill"></i> 123, London Bridge Street, London</p><p><i class="ri-mail-fill"></i> support@urbanaura.com</p><p><i class="ri-phone-fill"></i> (+012) 3456 789</p></div>
+  <div class="footer__col"><h4 class="footer__heading">COMPANY</h4><p>Home</p><p>About Us</p><p>Work With Us</p><p>Our Blog</p></div>
+  <div class="footer__col"><h4 class="footer__heading">USEFUL LINK</h4><p>Help</p><p>Track My Order</p><p>Men</p><p>Women</p></div>
+  <div class="footer__col"><h4 class="footer__heading">INSTAGRAM</h4><div class="instagram__grid"><img src="assets/instagram-1.jpg" alt=""><img src="assets/instagram-2.jpg" alt=""><img src="assets/instagram-3.jpg" alt=""><img src="assets/instagram-4.jpg" alt=""><img src="assets/instagram-5.jpg" alt=""><img src="assets/instagram-6.jpg" alt=""></div></div>
+</footer>
+<hr>
+<div class="section__container footer__bar">
+  <div class="copyright">Copyright © 2026 Khushi Bhatega.</div>
+  <div class="footer__form"><form autocomplete="off"><input type="text" placeholder="ENTER YOUR EMAIL" autocomplete="off"><button class="btn" type="submit">SUBSCRIBE</button></form></div>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <div class="success-icon">🎉</div>
+    <h2>Order Placed!</h2>
+    <p id="successMsg">Your order has been placed successfully.</p>
+    <div class="success-order-id" id="successOrderId">Order ID: UA123456</div><br>
+    <button class="success-cta" onclick="redirectSuccess()">Continue Shopping</button>
+  </div>
+</div>
+
+<script src="Js/navbar.js"></script>
+<script>
+  let selectedPayment = 'UPI';
+  let subtotalVal = 0, discountVal = 0, shippingVal = 0, grandTotalVal = 0;
+  let appliedCoupon = null;
+
+  function getCart() {
+    try {
+      let raw = localStorage.getItem('cart');
+      if (!raw) return [];
+      let parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      return parsed.map(function(item, i) {
+        let qty = parseInt(item.quantity || item.qty || 1);
+        if (isNaN(qty) || qty < 1) qty = 1;
+        let img = item.image || item.img || item.image_url || '';
+        if (img && !img.startsWith('http') && !img.startsWith('images/')) {
+          img = 'http://localhost/clothes(website)/' + img;
+        }
+        let size = item.size || item.selectedSize || '';
+        if (size === 'undefined' || size === 'null') size = '';
+        return { id: item.id || ('item-' + i), name: item.name || item.product_name || 'Unknown Item', price: parseFloat(item.price) || 0, img: img, qty: qty, size: size };
+      });
+    } catch(e) { return []; }
+  }
+
+  function fmt(n) { return Number(n).toLocaleString('en-IN'); }
+
+  function deliveryRange() {
+    let d1 = new Date(); d1.setDate(d1.getDate() + 5);
+    let d2 = new Date(); d2.setDate(d2.getDate() + 7);
+    let f = function(d) { return d.toLocaleDateString('en-IN', {weekday:'short',day:'numeric',month:'short',year:'numeric'}); };
+    return f(d1) + ' – ' + f(d2);
+  }
+
+  function renderItems() {
+    let cart = getCart();
+    let container = document.getElementById('orderItems');
+    container.innerHTML = '';
+    subtotalVal = 0; let totalQty = 0;
+    if (cart.length === 0) {
+      container.innerHTML = '<p style="color:#aaa;text-align:center;padding:24px 0;">Your cart is empty. <a href="products.html" style="color:#1a1a1a;font-weight:600;">Shop now →</a></p>';
+      updateTotals(); return;
+    }
+    cart.forEach(function(item) {
+      let lineTotal = item.price * item.qty;
+      subtotalVal += lineTotal; totalQty += item.qty;
+      let imgHtml = item.img && item.img.trim() !== '' ? '<img src="' + item.img + '" alt="' + item.name + '" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display=\'none\'">' : '<div class="oi-placeholder"><i class="ri-t-shirt-line"></i></div>';
+      let sizeBadgeHtml = (item.size && item.size.trim() !== '') ? '<div style="margin-top:5px;"><span class="size-badge">Size: ' + item.size + '</span></div>' : '';
+      let div = document.createElement('div');
+      div.className = 'order-item';
+      div.innerHTML = '<div class="oi-img">' + imgHtml + '</div><div class="oi-info"><div class="oi-name">' + item.name + '</div><div class="oi-meta">Qty: ' + item.qty + '</div>' + sizeBadgeHtml + '</div><div class="oi-price">₹' + fmt(lineTotal) + '</div>';
+      container.appendChild(div);
+    });
+    document.getElementById('itemCountTxt').innerText = totalQty;
+    updateTotals();
+  }
+
+  function updateTotals() {
+    shippingVal = (appliedCoupon === 'FREESHIP' || subtotalVal >= 1000) ? 0 : 99;
+    grandTotalVal = Math.max(0, subtotalVal - discountVal) + shippingVal;
+    document.getElementById('subtotalTxt').innerText = fmt(subtotalVal);
+    document.getElementById('grandTotalTxt').innerText = fmt(grandTotalVal);
+    document.getElementById('shippingTxt').innerText = shippingVal === 0 ? 'FREE 🎉' : '₹99';
+    let discRow = document.getElementById('discountRow');
+    discRow.style.display = discountVal > 0 ? 'flex' : 'none';
+    if (discountVal > 0) document.getElementById('discountTxt').innerText = fmt(discountVal);
+    document.getElementById('freeShipBadge').style.display = shippingVal === 0 ? 'flex' : 'none';
+    document.getElementById('deliveryEst').innerText = 'Estimated delivery: ' + deliveryRange();
+  }
+
+  document.getElementById('applyCouponBtn').addEventListener('click', function() {
+    let code = (document.getElementById('couponInput').value || '').trim().toUpperCase();
+    let msg = document.getElementById('couponMsg');
+    discountVal = 0; appliedCoupon = null;
+    if (!code) { msg.innerText = ''; updateTotals(); return; }
+    if (code === 'URBAN10') { discountVal = Math.round(subtotalVal * 0.10); appliedCoupon = code; msg.style.color = '#2e7d4f'; msg.innerText = '✓ 10% off applied!'; }
+    else if (code === 'FREE50') { discountVal = Math.min(50, subtotalVal); appliedCoupon = code; msg.style.color = '#2e7d4f'; msg.innerText = '✓ ₹50 off applied!'; }
+    else if (code === 'FREESHIP') { appliedCoupon = code; msg.style.color = '#2e7d4f'; msg.innerText = '✓ Free shipping applied!'; }
+    else { msg.style.color = '#c0392b'; msg.innerText = '✗ Invalid coupon'; }
+    updateTotals();
+  });
+
+  function selectPay(el, method) {
+    document.querySelectorAll('.pay-opt').forEach(function(o){ o.classList.remove('active'); });
+    el.classList.add('active'); selectedPayment = method;
+  }
+
+  function placeOrder() {
+    let cart = getCart();
+    if (cart.length === 0) { alert('Your cart is empty!'); return; }
+    let first = (document.getElementById('firstName').value || '').trim();
+    let last  = (document.getElementById('lastName').value || '').trim();
+    let phone = (document.getElementById('phone').value || '').trim();
+    let address = (document.getElementById('address').value || '').trim();
+    let city  = (document.getElementById('city').value || '').trim();
+    let pincode = (document.getElementById('pincode').value || '').trim();
+    let email = (document.getElementById('email').value || '').trim();
+    if (!first || !phone || !address) { alert('Please fill in your name, phone number and delivery address.'); return; }
+    let orderData = { customer_name: (first + ' ' + last).trim(), phone, address, city, pincode, email, payment_method: selectedPayment, total_amount: grandTotalVal, cart_items: cart.map(function(item){ return { id: item.id, name: item.name, price: item.price, image: item.img, qty: item.qty, quantity: item.qty, size: item.size }; }) };
+    let btn = document.getElementById('placeOrderBtn');
+    btn.disabled = true; btn.innerHTML = '<i class="ri-loader-4-line"></i> Placing Order...';
+    fetch('http://localhost/clothes(website)/api/place-order.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify(orderData) })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      if (data.success) {
+        let orderId = 'UA' + String(data.order_id).padStart(6, '0');
+        localStorage.setItem('lastOrder', JSON.stringify({ orderId, customerName: orderData.customer_name, phone, address, payment: selectedPayment, total: grandTotalVal, deliveryEst: deliveryRange() }));
+        localStorage.removeItem('cart');
+        document.getElementById('successOrderId').innerText = 'Order ID: ' + orderId;
+        document.getElementById('successMsg').innerHTML = 'Thank you, <strong>' + first + '</strong>! 🛍️<br>Paid via <strong>' + selectedPayment + '</strong> · Total: <strong>₹' + fmt(grandTotalVal) + '</strong><br><span style="font-size:12px;color:#aaa;">Expected: ' + deliveryRange() + '</span>';
+        document.getElementById('successOverlay').classList.add('show');
+      } else {
+        alert('Error: ' + (data.message || 'Could not place order.'));
+        btn.disabled = false; btn.innerHTML = '<i class="ri-secure-payment-line"></i> Place Order';
+      }
+    })
+    .catch(function(err){ alert('Network error. Please try again.'); btn.disabled = false; btn.innerHTML = '<i class="ri-secure-payment-line"></i> Place Order'; });
+  }
+
+  function redirectSuccess() { window.location.href = 'OrderSuccess.html'; }
+
+  fetch('http://localhost/clothes(website)/api/check-login.php', { credentials: 'include' })
+    .then(function(r){ return r.json(); })
+    .then(function(data){ if (!data.logged_in) { alert('Please login first!'); window.location.href = 'login.html'; } })
+    .catch(function(){});
+
+  renderItems();
+</script>
+<script src="Js/cart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

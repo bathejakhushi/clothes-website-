@@ -1,0 +1,24 @@
+/* Product Card Style */
+.product-card {
+    transition: transform .3s ease;
+    border-radius: 12px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Full size images */
+.product-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;   /* prevents shrinking */
+    border-radius: 12px 12px 0 0;
+}
+
+.price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #0071e3;
+}
+

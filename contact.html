@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact | Urban Aura</title>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="Css/navbar.css">
+<style>
+.contact-hero { position:relative; text-align:center; }
+.contact-hero img { width:100%; height:350px; object-fit:cover; }
+.hero-text { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff; }
+.hero-text h1 { font-size:40px; margin-bottom:10px; }
+.contact-section { padding:80px 0; text-align:center; }
+.section-title { font-size:28px; margin-bottom:40px; }
+.contact-form { max-width:600px; margin:0 auto; text-align:left; }
+.form-group { margin-bottom:20px; }
+.form-group label { display:block; margin-bottom:8px; font-weight:600; }
+.form-group input, .form-group textarea { width:100%; padding:12px; border:1px solid #ddd; border-radius:5px; font-family:inherit; font-size:14px; }
+.btn-submit { background:#000; color:#fff; padding:12px 28px; border:none; cursor:pointer; border-radius:5px; font-size:14px; font-weight:600; transition:.3s; }
+.btn-submit:hover { background:#333; }
+.contact-info { background:#f8f8f8; padding:60px 0; text-align:center; }
+.info-cards { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin-top:30px; }
+.info-card { background:#fff; padding:30px; width:250px; border-radius:10px; transition:.3s; }
+.info-card:hover { transform:translateY(-5px); }
+.map-section { padding:80px 0; text-align:center; }
+.toast-msg { position:fixed; bottom:30px; right:30px; background:#1a1a1a; color:#fff; padding:14px 24px; border-radius:10px; font-size:14px; font-weight:600; z-index:9999; opacity:0; transform:translateY(20px); transition:all 0.3s; }
+.toast-msg.show { opacity:1; transform:translateY(0); }
+.toast-msg.success { background:#2e7d4f; }
+.toast-msg.error { background:#c0392b; }
+</style>
+</head>
+<body>
+
+<nav class="ua-nav">
+  <a href="index.html" class="ua-logo">URBAN AURA FASHION</a>
+  <ul class="ua-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <li class="nav-login" id="nav-login-item"><a href="login.html">Login</a></li>
+    <li class="nav-logout" id="nav-logout-item" style="display:none;"><a href="logout.php">Logout</a></li>
+  </ul>
+  <div class="ua-icons">
+    <a href="profile.php" class="ua-profile" id="ua-profile-link">
+      <i class="ri-user-line"></i><span id="ua-profile-name"></span>
+    </a>
+    <a href="cart.html" class="ua-cart">
+      <i class="ri-shopping-bag-2-line"></i>
+      <span id="ua-cart-badge" class="ua-cart-badge"></span>
+    </a>
+  </div>
+</nav>
+<div class="ua-nav-spacer"></div>
+
+<section class="contact-hero">
+  <img src="https://elledecor.in/wp-content/uploads/2024/09/Banner-2-3-1.jpg" alt="Contact Banner">
+  <div class="hero-text"><h1>Contact Us</h1><p>We're here to help. Get in touch!</p></div>
+</section>
+
+<section class="section__container contact-section">
+  <h2 class="section-title">Send Us a Message</h2>
+  <form class="contact-form" id="contactForm" autocomplete="off">
+    <div class="form-group"><label>Full Name</label><input type="text" id="contactName" placeholder="Your Name" required autocomplete="off"></div>
+    <div class="form-group"><label>Email Address</label><input type="email" id="contactEmail" placeholder="Your Email" required autocomplete="off"></div>
+    <div class="form-group"><label>Message</label><textarea id="contactMessage" rows="6" placeholder="Write your message here..." required></textarea></div>
+    <button type="submit" class="btn-submit">Send Message</button>
+  </form>
+</section>
+
+<section class="contact-info">
+  <div class="section__container">
+    <h2 class="section-title">Reach Us At</h2>
+    <div class="info-cards">
+      <div class="info-card"><h3>Address</h3><p>Vita, Sangli District, Maharashtra, India</p></div>
+      <div class="info-card"><h3>Email</h3><p>support@urbanaura.com</p></div>
+      <div class="info-card"><h3>Phone</h3><p>+91 9998887770</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="map-section section__container">
+  <h2 class="section-title">Find Us Here</h2>
+  <div class="map-container">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.236599199603!2d74.93188207527125!3d17.26408630619917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc3bd7f2a3136c5%3A0xd59d77e738b0e5c3!2sVita%2C%20Maharashtra%20416014!5e0!3m2!1sen!2sin!4v1701056325698!5m2!1sen!2sin" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</section>
+
+<hr>
+<footer class="section__container footer__container">
+  <div class="footer__col"><h4 class="footer__heading">CONTACT INFO</h4><p><i class="ri-map-pin-2-fill"></i> 123, London Bridge Street, London</p><p><i class="ri-mail-fill"></i> support@urbanaura.com</p><p><i class="ri-phone-fill"></i> (+012) 3456 789</p></div>
+  <div class="footer__col"><h4 class="footer__heading">COMPANY</h4><p>Home</p><p>About Us</p><p>Work With Us</p><p>Our Blog</p></div>
+  <div class="footer__col"><h4 class="footer__heading">USEFUL LINK</h4><p>Help</p><p>Track My Order</p><p>Men</p><p>Women</p></div>
+  <div class="footer__col"><h4 class="footer__heading">INSTAGRAM</h4><div class="instagram__grid"><img src="assets/instagram-1.jpg" alt=""><img src="assets/instagram-2.jpg" alt=""><img src="assets/instagram-3.jpg" alt=""><img src="assets/instagram-4.jpg" alt=""><img src="assets/instagram-5.jpg" alt=""><img src="assets/instagram-6.jpg" alt=""></div></div>
+</footer>
+<hr>
+<div class="section__container footer__bar">
+  <div class="copyright">Copyright © 2026 Khushi Bhatega.</div>
+  <div class="footer__form"><form autocomplete="off"><input type="text" placeholder="ENTER YOUR EMAIL" autocomplete="off"><button class="btn" type="submit">SUBSCRIBE</button></form></div>
+</div>
+
+<div class="toast-msg" id="toastMsg"></div>
+
+<script src="Js/navbar.js"></script>
+<script>
+function showToast(msg, type) {
+  let t = document.getElementById('toastMsg');
+  t.innerText = msg; t.className = 'toast-msg ' + type + ' show';
+  setTimeout(() => { t.className = 'toast-msg'; }, 3500);
+}
+
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  let btn = this.querySelector('.btn-submit');
+  btn.innerText = 'Sending...'; btn.disabled = true;
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem('loggedInUser')); } catch(e) {}
+  let fd = new FormData();
+  fd.append('name',    document.getElementById('contactName').value.trim()    || (user ? user.name : ''));
+  fd.append('email',   document.getElementById('contactEmail').value.trim()   || (user ? user.email : ''));
+  fd.append('message', document.getElementById('contactMessage').value.trim());
+  try {
+    let res  = await fetch('http://localhost/clothes(website)/api/contact-submit.php', { method:'POST', credentials:'include', body:fd });
+    let data = await res.json();
+    if (data.success) {
+      showToast('✅ Message sent successfully!', 'success');
+      document.getElementById('contactForm').reset();
+    } else {
+      showToast('❌ ' + (data.message || 'Failed to send message.'), 'error');
+    }
+  } catch(err) {
+    showToast('❌ Network error. Try again.', 'error');
+  }
+  btn.innerText = 'Send Message'; btn.disabled = false;
+});
+</script>
+</body>
+</html>

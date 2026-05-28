@@ -1,0 +1,59 @@
+<!-- ============================================================
+  URBAN AURA — UNIFIED NAVBAR
+  Copy this EXACT block into EVERY page (index, products, about,
+  contact, feedback, shirts, jeans, etc.)
+  Replace the old <nav> block with this one.
+  ============================================================ -->
+
+<!-- 1. Add these in <head> of every page (if not already there) -->
+<!--
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet"/>
+<link rel="stylesheet" href="navbar.css"/>
+-->
+
+<!-- 2. NAVBAR HTML — paste right after <body> -->
+<nav class="ua-nav">
+
+  <!-- Logo -->
+  <a href="index.html" class="ua-logo">URBAN AURA FASHION</a>
+
+  <!-- Links -->
+  <ul class="ua-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <!-- Login shown when logged out -->
+    <li class="nav-login" id="nav-login-item">
+      <a href="login.html">Login</a>
+    </li>
+    <!-- Logout shown when logged in -->
+    <li class="nav-logout" id="nav-logout-item" style="display:none;">
+      <a href="logout.php">Logout</a>
+    </li>
+  </ul>
+
+  <!-- Icons -->
+  <div class="ua-icons">
+    <!-- Profile pill (shown when logged in) -->
+    <a href="profile.php" class="ua-profile" id="ua-profile-link">
+      <i class="ri-user-line"></i>
+      <span id="ua-profile-name"></span>
+    </a>
+    <!-- Cart -->
+    <a href="cart.html" class="ua-cart">
+      <i class="ri-shopping-bag-2-line"></i>
+      <span id="ua-cart-badge" class="ua-cart-badge"></span>
+    </a>
+  </div>
+
+</nav>
+
+<!-- Spacer so page content doesn't hide under fixed navbar -->
+<div class="ua-nav-spacer"></div>
+
+<!-- 3. Add this SCRIPT at bottom of every page (before </body>) -->
+<!--
+<script src="Js/navbar.js"></script>
+-->
